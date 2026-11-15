@@ -81,6 +81,8 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
       footnoteRef.current?.replaceChildren(view);
       const { renderer } = view;
       renderer.setAttribute('flow', 'scrolled');
+      renderer.setAttribute('no-continuous-scroll', '');
+      renderer.setAttribute('no-preload', '');
       renderer.setAttribute('margin-top', '0px');
       renderer.setAttribute('margin-right', '0px');
       renderer.setAttribute('margin-bottom', '0px');
@@ -165,8 +167,8 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
     setTrianglePosition(triangPos);
 
     const { a: anchor } = detail as { a: HTMLAnchorElement };
-    const footnoteClasses = ['duokan-footnote', 'footnote-link', 'footnote'];
-    if (footnoteClasses.some((cls) => anchor.classList.contains(cls))) {
+    const footnoteClasses = ['duokan-footnote', 'footnote-link', 'footnote', 'fnref', 'qqreader-footnote'];
+    if (footnoteClasses.some((cls) => anchor.classList.contains(cls) || anchor.querySelector(`.${cls}`))) {
       detail['follow'] = true;
     }
     footnoteHandler.handle(bookDoc, event)?.catch((err) => {

@@ -181,23 +181,28 @@ export const handleClick = (
 
   const postSingleClick = () => {
     const element = event.target as HTMLElement | null;
+    const footnote = element?.closest(
+      '.js_readerFooterNote, .zhangyue-footnote, .duokan-footnote, .qqreader-footnote',
+    );
+    const footnoteText =
+      footnote?.getAttribute('data-wr-footernote') ||
+      footnote?.getAttribute('zy-footnote') ||
+      footnote?.getAttribute('alt') ||
+      element?.getAttribute('alt');
+
     if (
       element?.closest('sup, a, audio, video') &&
-      !element?.closest('a.duokan-footnote:not([href])')
+      !element?.closest('a.duokan-footnote:not([href])') &&
+      !(footnote && footnoteText)
     ) {
       return;
     }
-    const footnote = element?.closest('.js_readerFooterNote, .zhangyue-footnote, .duokan-footnote');
-    if (footnote) {
+
+    if (footnote && footnoteText) {
       eventDispatcher.dispatch('footnote-popup', {
         bookKey,
         element: footnote,
-        footnote:
-          footnote.getAttribute('data-wr-footernote') ||
-          footnote.getAttribute('zy-footnote') ||
-          footnote.getAttribute('alt') ||
-          element?.getAttribute('alt') ||
-          '',
+        footnote: footnoteText,
       });
       return;
     }
