@@ -105,9 +105,15 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
       const detail = (e as CustomEvent).detail;
       // console.log('render footnote', detail);
       const { view } = detail;
-      view.addEventListener('relocate', () => {
+      view.addEventListener('relocate', async () => {
         const { renderer } = view as FoliateView;
         const viewSettings = getViewSettings(bookKey)!;
+        const { doc } = renderer.getContents()[0] || {};
+        if (doc?.fonts?.ready) {
+          try {
+            await doc.fonts.ready;
+          } catch {}
+        }
         if (viewSettings.vertical) {
           setResponsiveWidth(clipPopupWith(getResponsivePopupSize(renderer.viewSize, true)));
         } else {
@@ -155,6 +161,56 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
     }
   }, [trianglePosition, gridRect, responsiveWidth, responsiveHeight]);
 
+  const showFootnoteText = (
+    _element: HTMLElement,
+    text: string,
+    triangPos: Position,
+    rect: DOMRect,
+    viewSettings: any,
+  ) => {
+    if (footnoteRef.current) {
+      const themeCode = getThemeCode();
+      const defaultFontFamily =
+        viewSettings.defaultFont?.toLowerCase() === 'serif' ? '--serif' : '--sans-serif';
+
+      const elem = document.createElement('div');
+      elem.textContent = text;
+      elem.setAttribute(
+        'style',
+        `padding: 1em; ` +
+          `hanging-punctuation: allow-end last; ` +
+          `font-family: var(${defaultFontFamily}), serif; ` +
+          `font-size: ${viewSettings.defaultFontSize || 16}px; ` +
+          `font-weight: ${viewSettings.fontWeight || 400}; ` +
+          `line-height: ${viewSettings.lineHeight || 1.6}; ` +
+          `color: ${themeCode.fg}; ` +
+          `word-break: break-word; ` +
+          `white-space: pre-wrap; ` +
+          `user-select: text;`,
+      );
+      elem.style.visibility = 'hidden';
+      if (viewSettings.vertical) {
+        elem.style.height = `${responsiveHeight}px`;
+      } else {
+        elem.style.width = `${responsiveWidth}px`;
+      }
+      document.body.appendChild(elem);
+      const popupSize = elem.getBoundingClientRect();
+      if (viewSettings.vertical) {
+        setResponsiveWidth(clipPopupWith(getResponsivePopupSize(popupSize.width, true)));
+      } else {
+        setResponsiveHeight(clipPopupHeight(getResponsivePopupSize(popupSize.height, false)));
+      }
+      document.body.removeChild(elem);
+
+      elem.style.visibility = 'visible';
+      footnoteRef.current.replaceChildren(elem);
+      setGridRect(rect);
+      setTrianglePosition(triangPos);
+      setShowPopup(true);
+    }
+  };
+
   const docLinkHandler = async (event: Event) => {
     const detail = (event as CustomEvent).detail;
     // console.log('doc link click', detail);
@@ -163,10 +219,28 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
     const rect = gridFrame.getBoundingClientRect();
     const viewSettings = getViewSettings(bookKey)!;
     const triangPos = getPosition(detail.a, rect, popupPadding, viewSettings.vertical);
+
+    const { a: anchor } = detail as { a: HTMLAnchorElement };
+
+    // 优先检测内嵌注释文本（如微信读书/QQ阅读的 alt、data-wr-footernote、多看等）
+    // 直接走宿主 DOM 渲染，0ms 瞬间上屏且彻底杜绝 iframe 字体跳变
+    const imgNote =
+      anchor.querySelector('img.qqreader-footnote, img[alt]') ||
+      (anchor.matches('img') ? anchor : null);
+    const footnoteText =
+      imgNote?.getAttribute('alt') ||
+      anchor.getAttribute('data-wr-footernote') ||
+      anchor.getAttribute('zy-footnote') ||
+      anchor.getAttribute('alt');
+
+    if (footnoteText && footnoteText.trim()) {
+      showFootnoteText(detail.a, footnoteText.trim(), triangPos, rect, viewSettings);
+      return;
+    }
+
     setGridRect(rect);
     setTrianglePosition(triangPos);
 
-    const { a: anchor } = detail as { a: HTMLAnchorElement };
     const footnoteClasses = ['duokan-footnote', 'footnote-link', 'footnote', 'fnref', 'qqreader-footnote'];
     if (footnoteClasses.some((cls) => anchor.classList.contains(cls) || anchor.querySelector(`.${cls}`))) {
       detail['follow'] = true;
@@ -200,31 +274,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
     const rect = gridFrame.getBoundingClientRect();
     const viewSettings = getViewSettings(bookKey)!;
     const triangPos = getPosition(element, rect, popupPadding, viewSettings.vertical);
-    if (footnoteRef.current) {
-      const elem = document.createElement('p');
-      elem.textContent = footnote;
-      elem.setAttribute('style', `padding: 1em; hanging-punctuation: allow-end last;`);
-      elem.style.visibility = 'hidden';
-      if (viewSettings.vertical) {
-        elem.style.height = `${responsiveHeight}px`;
-      } else {
-        elem.style.width = `${responsiveWidth}px`;
-      }
-      document.body.appendChild(elem);
-      const popupSize = elem.getBoundingClientRect();
-      if (viewSettings.vertical) {
-        setResponsiveWidth(getResponsivePopupSize(popupSize.width, true));
-      } else {
-        setResponsiveHeight(getResponsivePopupSize(popupSize.height, false));
-      }
-      document.body.removeChild(elem);
-
-      elem.style.visibility = 'visible';
-      footnoteRef.current.replaceChildren(elem);
-      setGridRect(rect);
-      setTrianglePosition(triangPos);
-      setShowPopup(true);
-    }
+    showFootnoteText(element, footnote, triangPos, rect, viewSettings);
   };
 
   useFoliateEvents(view, {
