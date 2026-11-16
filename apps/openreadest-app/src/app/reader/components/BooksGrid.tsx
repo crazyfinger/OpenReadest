@@ -192,6 +192,7 @@ const BooksGrid: React.FC<BooksGridProps> = ({ bookKeys, onCloseBook }) => {
                 section={section}
                 pageinfo={pageinfo}
                 timeinfo={timeinfo}
+                sectionLabel={sectionLabel}
                 horizontalGap={horizontalGapPercent}
                 contentInsets={contentInsets}
                 gridInsets={gridInsets}

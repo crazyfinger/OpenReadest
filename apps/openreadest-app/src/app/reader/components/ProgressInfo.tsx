@@ -17,6 +17,7 @@ interface PageInfoProps {
   section?: PageInfo;
   pageinfo?: PageInfo;
   timeinfo?: TimeInfo;
+  sectionLabel?: string;
   horizontalGap: number;
   contentInsets: Insets;
   gridInsets: Insets;
@@ -27,6 +28,7 @@ const ProgressInfoView: React.FC<PageInfoProps> = ({
   section,
   pageinfo,
   timeinfo,
+  sectionLabel,
   horizontalGap,
   contentInsets,
   gridInsets,
@@ -161,10 +163,10 @@ const ProgressInfoView: React.FC<PageInfoProps> = ({
     <div
       role='presentation'
       className={clsx(
-        'progressinfo absolute bottom-0 flex items-center justify-between font-sans',
-        isEink ? 'text-sm font-normal' : 'text-neutral-content text-xs font-extralight',
+        'progressinfo absolute bottom-0 flex items-center justify-between font-sans select-none',
+        isEink ? 'text-sm font-normal text-base-content' : 'text-base-content/75 text-xs font-normal',
         isVertical ? 'writing-vertical-rl' : 'w-full',
-        isScrolled && !isVertical && 'bg-base-100',
+        isScrolled && !isVertical && 'bg-base-100/90 backdrop-blur-xs',
         isMobile ? 'pointer-events-auto' : 'pointer-events-none',
       )}
       onClick={() => cycleProgressInfoModes()}
@@ -200,36 +202,42 @@ const ProgressInfoView: React.FC<PageInfoProps> = ({
       <div
         aria-hidden='true'
         className={clsx(
-          'flex items-center justify-between',
-          isVertical ? 'h-full' : 'h-[52px] w-full gap-x-2',
+          'flex items-center justify-between select-none',
+          isVertical ? 'h-full' : 'h-[44px] w-full gap-x-4 px-2',
         )}
       >
-        {(progressInfoMode === 'all' || progressInfoMode === 'remaining') &&
-          (chapterLeft || bookTimeLeft) && (
-            <span className={clsx('text-start', !isVertical && 'flex min-w-0 flex-1 gap-x-1')}>
-              {chapterLeft ? (
-                <span className={clsx(!isVertical && 'min-w-0 truncate')}>{chapterLeft}</span>
-              ) : null}
-              {bookTimeLeft ? (
-                // Own non-shrinking span: on narrow footers the chapter text truncates first,
-                // never the whole-book estimate.
-                <span
-                  className={clsx('book-time-left', !isVertical && 'shrink-0 whitespace-nowrap')}
-                >
-                  {chapterLeft ? ' · ' : ''}
-                  {bookTimeLeft}
-                </span>
-              ) : null}
+        {/* Left: WeChat Read Chapter title & Reading time */}
+        <div
+          className={clsx(
+            'text-start flex items-center min-w-0 max-w-[65%]',
+            !isVertical && 'truncate',
+          )}
+        >
+          {sectionLabel ? (
+            <span
+              className='truncate opacity-75 hover:opacity-100 transition-opacity text-xs font-normal'
+              title={sectionLabel}
+            >
+              {sectionLabel}
+            </span>
+          ) : chapterLeft ? (
+            <span className='truncate opacity-75 text-xs font-normal'>{chapterLeft}</span>
+          ) : null}
+          {bookTimeLeft && (
+            <span className='shrink-0 opacity-50 ml-2 text-[11px] hidden sm:inline'>
+              {bookTimeLeft}
             </span>
           )}
+        </div>
 
+        {/* Right: WeChat Read Page count / percentage */}
         {(progressInfoMode === 'all' || progressInfoMode === 'progress') && (
           <>
             {viewSettings.showProgressInfo && (
               <span
                 className={clsx(
-                  'text-end',
-                  isVertical ? 'mt-auto' : 'ms-auto min-w-0 flex-1 truncate',
+                  'text-end shrink-0 ml-auto opacity-75 text-xs font-normal',
+                  isVertical ? 'mt-auto' : 'ms-auto',
                 )}
               >
                 {progressInfo}

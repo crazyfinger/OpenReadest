@@ -35,8 +35,10 @@ export const NavigationPanel: React.FC<NavigationPanelProps> = ({
 }) => {
   const _ = useTranslation();
   const { appService } = useEnv();
-  const { getView } = useReaderStore();
+  const { getView, getProgress } = useReaderStore();
   const view = getView(bookKey);
+  const progress = getProgress(bookKey);
+  const { sectionLabel } = progress || {};
 
   const [progressValue, setProgressValue] = React.useState(
     progressValid ? progressFraction * 100 : 0,
@@ -74,13 +76,50 @@ export const NavigationPanel: React.FC<NavigationPanelProps> = ({
           : bottomOffset,
       }}
     >
-      <div className='flex w-full items-center justify-between gap-x-6'>
-        <Slider
-          label={_('Reading Progress')}
-          heightPx={sliderHeight}
-          bubbleLabel={`${Math.round(progressValue)}%`}
-          initialValue={progressValue}
-          onChange={handleProgressChange}
+      {/* WeChat Read Chapter info above slider */}
+      {sectionLabel && (
+        <div className='flex w-full items-center justify-between text-xs text-base-content/80 px-1'>
+          <span className='truncate font-medium max-w-[70%]' title={sectionLabel}>
+            {sectionLabel}
+          </span>
+          <span className='shrink-0 font-medium tracking-wider'>{Math.round(progressValue)}%</span>
+        </div>
+      )}
+      <div className='flex w-full items-center justify-between gap-x-3'>
+        <Button
+          icon={getNavigationIcon(
+            viewSettings?.rtl,
+            <RiArrowLeftDoubleLine />,
+            <RiArrowRightDoubleLine />,
+          )}
+          onClick={getNavigationHandler(
+            viewSettings?.rtl,
+            navigationHandlers.onPrevSection,
+            navigationHandlers.onNextSection,
+          )}
+          label={getNavigationLabel(viewSettings?.rtl, _('Previous Section'), _('Next Section'))}
+        />
+        <div className='flex-1 min-w-0'>
+          <Slider
+            label={_('Reading Progress')}
+            heightPx={sliderHeight}
+            bubbleLabel={`${Math.round(progressValue)}%`}
+            initialValue={progressValue}
+            onChange={handleProgressChange}
+          />
+        </div>
+        <Button
+          icon={getNavigationIcon(
+            viewSettings?.rtl,
+            <RiArrowRightDoubleLine />,
+            <RiArrowLeftDoubleLine />,
+          )}
+          onClick={getNavigationHandler(
+            viewSettings?.rtl,
+            navigationHandlers.onNextSection,
+            navigationHandlers.onPrevSection,
+          )}
+          label={getNavigationLabel(viewSettings?.rtl, _('Next Section'), _('Previous Section'))}
         />
       </div>
       <div className='flex w-full items-center justify-between gap-x-6'>

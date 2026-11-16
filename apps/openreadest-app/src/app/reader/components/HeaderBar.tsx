@@ -140,8 +140,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         role='group'
         aria-label={_('Header Bar')}
         className={clsx(
-          `header-bar bg-base-100 absolute top-0 z-10 flex h-11 w-full items-center pr-4`,
-          `shadow-xs transition-[opacity,margin-top] duration-300`,
+          `header-bar not-eink:bg-base-100/90 not-eink:backdrop-blur-md eink:bg-base-100 absolute top-0 z-10 flex h-12 w-full items-center pr-4`,
+          `border-b not-eink:border-base-300/40 eink:border-base-content/20 shadow-xs transition-all duration-300`,
           trafficLightInHeader ? 'pl-20' : 'pl-4',
           appService?.hasRoundedWindow && 'rounded-window-top-right',
           !isSideBarVisible && appService?.hasRoundedWindow && 'rounded-window-top-left',
@@ -207,15 +207,15 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
           role='contentinfo'
           aria-label={_('Title') + ' - ' + bookTitle}
           className={clsx(
-            'header-title z-15 bg-base-100 pointer-events-none hidden flex-1 items-center justify-center sm:flex',
+            'header-title z-15 pointer-events-none flex flex-1 items-center justify-center',
             !windowButtonVisible && 'absolute inset-0',
           )}
         >
           <div
             aria-hidden='true'
             className={clsx(
-              'line-clamp-1 text-center text-xs font-semibold',
-              !windowButtonVisible && 'max-w-[50%]',
+              'line-clamp-1 text-center text-xs font-medium tracking-wide text-base-content/85',
+              !windowButtonVisible && 'max-w-[55%]',
             )}
           >
             {bookTitle}
