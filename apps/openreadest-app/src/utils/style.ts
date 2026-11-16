@@ -55,6 +55,9 @@ const getFontStyles = (
       --serif: ${serifFonts.map((font) => `"${font}"`).join(', ')}, serif;
       --sans-serif: ${sansSerifFonts.map((font) => `"${font}"`).join(', ')}, sans-serif;
       --monospace: ${monospaceFonts.map((font) => `"${font}"`).join(', ')}, monospace;
+      --kaiti: "WeRead-KaiTi", "Kaiti", "Kai", "STKaiti", var(--serif);
+      --fangsong: "WeRead-FangSong", "FangSong", "Fang Song", "STFangsong", var(--serif);
+      --yuesong: "WeRead-YueSong", "FZQingKBYSJF-M", var(--serif);
       --font-size: ${fontSize}px;
       --min-font-size: ${minFontSize}px;
       --font-weight: ${fontWeight};
@@ -359,6 +362,17 @@ const getLayoutStyles = (
   aside[epub|type~="note"],
   aside[epub|type~="rearnote"] {
     display: none;
+  }
+
+  /* WeChat Read typography refinement */
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.4;
+  }
+  blockquote, .poem, .quotation, .quote {
+    font-family: var(--kaiti);
   }
 
   /* Now begins really dirty hacks to fix some badly designed epubs */

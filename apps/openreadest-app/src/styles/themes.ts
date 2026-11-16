@@ -72,10 +72,34 @@ export const generateDarkPalette = ({ bg, fg, primary }: BaseColor) => {
 export const themes = [
   {
     name: 'default',
-    label: _('Default'),
+    label: _('WeRead Parchment'),
     colors: {
-      light: generateLightPalette({ fg: '#171717', bg: '#ffffff', primary: '#0066cc' }),
-      dark: generateDarkPalette({ fg: '#e0e0e0', bg: '#222222', primary: '#77bbee' }),
+      light: generateLightPalette({ fg: '#272623', bg: '#f7f0df', primary: '#2ca568' }),
+      dark: generateDarkPalette({ fg: '#f0f0f2', bg: '#1d1d1e', primary: '#2ca568' }),
+    },
+  },
+  {
+    name: 'weread-green',
+    label: _('WeRead Green'),
+    colors: {
+      light: generateLightPalette({ fg: '#202621', bg: '#ccf0cf', primary: '#309715' }),
+      dark: generateDarkPalette({ fg: '#d8deba', bg: '#253326', primary: '#309715' }),
+    },
+  },
+  {
+    name: 'weread-white',
+    label: _('WeRead White'),
+    colors: {
+      light: generateLightPalette({ fg: '#212832', bg: '#ffffff', primary: '#1b88ee' }),
+      dark: generateDarkPalette({ fg: '#f0f0f2', bg: '#000000', primary: '#2493ee' }),
+    },
+  },
+  {
+    name: 'weread-night',
+    label: _('WeRead Night'),
+    colors: {
+      light: generateLightPalette({ fg: '#212832', bg: '#ffffff', primary: '#1b88ee' }),
+      dark: generateDarkPalette({ fg: '#f0f0f2', bg: '#000000', primary: '#2493ee' }),
     },
   },
   {

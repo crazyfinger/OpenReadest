@@ -93,11 +93,11 @@ export const DEFAULT_MOBILE_SYSTEM_SETTINGS: Partial<SystemSettings> = {
 };
 
 export const HIGHLIGHT_COLOR_HEX: Record<HighlightColor, string> = {
-  red: '#f87171', // red-400
-  yellow: '#facc15', // yellow-400
-  green: '#4ade80', // green-400
-  blue: '#60a5fa', // blue-400
-  violet: '#a78bfa', // violet-400
+  red: '#fe4844', // WeChat Read straight red
+  yellow: '#fdaa59', // WeChat Read straight yellow/orange
+  green: '#33c75d', // WeChat Read straight green
+  blue: '#4e85f3', // WeChat Read straight blue
+  violet: '#8f42fe', // WeChat Read straight violet
 };
 
 export const DEFAULT_READSETTINGS: ReadSettings = {
@@ -210,8 +210,8 @@ export const DEFAULT_MOBILE_VIEW_SETTINGS: Partial<ViewSettings> = {
 export const DEFAULT_CJK_VIEW_SETTINGS: Partial<ViewSettings> = {
   fullJustification: true,
   textIndent: 2,
-  paragraphMargin: 1,
-  lineHeight: 1.6,
+  paragraphMargin: 0.8,
+  lineHeight: 1.8,
 };
 
 export const DEFAULT_FIXED_LAYOUT_VIEW_SETTINGS: Partial<ViewSettings> = {
@@ -308,15 +308,19 @@ export const SERIF_FONTS = [
 export const NON_FREE_FONTS = ['Georgia', 'Times New Roman'];
 
 export const CJK_SERIF_FONTS = [
+  _('WeRead-SongTi'),
+  _('WeRead-KaiTi'),
+  _('WeRead-FangSong'),
+  _('WeRead-YueSong'),
+  _('Source Han Serif CN'),
   _('LXGW WenKai GB Screen'),
   _('LXGW WenKai TC'),
   _('GuanKiapTsingKhai-T'),
-  _('Source Han Serif CN'),
   _('Huiwen-MinchoGBK'),
   _('KingHwa_OldSong'),
 ];
 
-export const CJK_SANS_SERIF_FONTS = ['Noto Sans SC', 'Noto Sans TC'];
+export const CJK_SANS_SERIF_FONTS = ['WeRead-LanTingHei', 'Noto Sans SC', 'Noto Sans TC'];
 
 export const SANS_SERIF_FONTS = ['Roboto', 'Noto Sans', 'Open Sans', 'PT Sans', 'Helvetica'];
 

@@ -49,9 +49,34 @@ const getAdditionalCJKFontLinks = () => `
 
 const getAdditionalCJKFontFaces = () => `
   @font-face {
+    font-family: "WeRead-LanTingHei";
+    font-display: swap;
+    src: local("FZLanTingHeiProGBK-M"), local("FZLanTingHei-R-GBK"), local("方正兰亭黑"), url("/fonts/FZLanTingHei.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "WeRead-SongTi";
+    font-display: swap;
+    src: local("Source Han Serif CN"), local("Source Han Serif SC"), local("思源宋体"), url("/fonts/SourceHanSerifCN.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "WeRead-KaiTi";
+    font-display: swap;
+    src: local("FZYingBiKaiShu-S15"), local("方正硬笔楷书"), url("/fonts/FZYingBiKaiShu.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "WeRead-FangSong";
+    font-display: swap;
+    src: local("FZFangSong-Z02"), local("方正仿宋"), url("/fonts/FZFangSong.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "WeRead-YueSong";
+    font-display: swap;
+    src: local("FZQingKBYSJF-M"), local("方正清刻本悦宋"), url("/fonts/FZQingKeBenYueSong.ttf") format("truetype");
+  }
+  @font-face {
     font-family: "FangSong";
     font-display: swap;
-    src: local("Fang Song"), local("FangSong"), local("Noto Serif CJK"), local("Source Han Serif SC VF"), url("https://db.onlinewebfonts.com/t/2ecbfe1d9bfc191c6f15c0ccc23cbd43.eot");
+    src: local("FZFangSong-Z02"), local("方正仿宋"), url("/fonts/FZFangSong.ttf") format("truetype"), local("Fang Song"), local("FangSong"), local("Noto Serif CJK"), local("Source Han Serif SC VF"), url("https://db.onlinewebfonts.com/t/2ecbfe1d9bfc191c6f15c0ccc23cbd43.eot");
     src: url("https://db.onlinewebfonts.com/t/2ecbfe1d9bfc191c6f15c0ccc23cbd43.eot?#iefix") format("embedded-opentype"),
     url("https://db.onlinewebfonts.com/t/2ecbfe1d9bfc191c6f15c0ccc23cbd43.woff2") format("woff2"),
     url("https://db.onlinewebfonts.com/t/2ecbfe1d9bfc191c6f15c0ccc23cbd43.woff") format("woff"),
@@ -61,7 +86,7 @@ const getAdditionalCJKFontFaces = () => `
   @font-face {
     font-family: "Kaiti";
     font-display: swap;
-    src: local("Kai"), local("KaiTi"), local("AR PL UKai"), local("LXGW WenKai GB Screen"), url("https://db.onlinewebfonts.com/t/1ee9941f1b8c128110ca4307dda59917.eot");
+    src: local("FZYingBiKaiShu-S15"), local("方正硬笔楷书"), url("/fonts/FZYingBiKaiShu.ttf") format("truetype"), local("Kai"), local("KaiTi"), local("AR PL UKai"), local("LXGW WenKai GB Screen"), url("https://db.onlinewebfonts.com/t/1ee9941f1b8c128110ca4307dda59917.eot");
     src: url("https://db.onlinewebfonts.com/t/1ee9941f1b8c128110ca4307dda59917.eot?#iefix")format("embedded-opentype"),
     url("https://db.onlinewebfonts.com/t/1ee9941f1b8c128110ca4307dda59917.woff2")format("woff2"),
     url("https://db.onlinewebfonts.com/t/1ee9941f1b8c128110ca4307dda59917.woff")format("woff"),
@@ -71,7 +96,7 @@ const getAdditionalCJKFontFaces = () => `
   @font-face {
     font-family: "Heiti";
     font-display: swap;
-    src: local("Hei"), local("SimHei"), local("WenQuanYi Zen Hei"), local("Source Han Sans SC VF"), url("https://db.onlinewebfonts.com/t/a4948b9d43a91468825a5251df1ec58d.eot");
+    src: local("FZLanTingHeiProGBK-M"), local("FZLanTingHei-R-GBK"), local("方正兰亭黑"), url("/fonts/FZLanTingHei.ttf") format("truetype"), local("Hei"), local("SimHei"), local("WenQuanYi Zen Hei"), local("Source Han Sans SC VF"), url("https://db.onlinewebfonts.com/t/a4948b9d43a91468825a5251df1ec58d.eot");
     src: url("https://db.onlinewebfonts.com/t/a4948b9d43a91468825a5251df1ec58d.eot?#iefix")format("embedded-opentype"),
     url("https://db.onlinewebfonts.com/t/a4948b9d43a91468825a5251df1ec58d.woff2")format("woff2"),
     url("https://db.onlinewebfonts.com/t/a4948b9d43a91468825a5251df1ec58d.woff")format("woff"),
@@ -81,7 +106,7 @@ const getAdditionalCJKFontFaces = () => `
   @font-face {
     font-family: "XiHeiti";
     font-display: swap;
-    src: local("PingFang SC"), local("Microsoft YaHei"), local("WenQuanYi Micro Hei"), local("FZHei-B01"), url("https://db.onlinewebfonts.com/t/4f0b783ba4a1b381fc7e7af81ecab481.eot");
+    src: local("FZLanTingHeiProGBK-M"), local("FZLanTingHei-R-GBK"), local("方正兰亭黑"), url("/fonts/FZLanTingHei.ttf") format("truetype"), local("PingFang SC"), local("Microsoft YaHei"), local("WenQuanYi Micro Hei"), local("FZHei-B01"), url("https://db.onlinewebfonts.com/t/4f0b783ba4a1b381fc7e7af81ecab481.eot");
     src: url("https://db.onlinewebfonts.com/t/4f0b783ba4a1b381fc7e7af81ecab481.eot?#iefix")format("embedded-opentype"),
     url("https://db.onlinewebfonts.com/t/4f0b783ba4a1b381fc7e7af81ecab481.woff2")format("woff2"),
     url("https://db.onlinewebfonts.com/t/4f0b783ba4a1b381fc7e7af81ecab481.woff")format("woff"),
