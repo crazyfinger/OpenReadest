@@ -234,6 +234,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
       anchor.getAttribute('alt');
 
     if (footnoteText && footnoteText.trim()) {
+      event.preventDefault();
       showFootnoteText(detail.a, footnoteText.trim(), triangPos, rect, viewSettings);
       return;
     }
@@ -244,11 +245,10 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({ bookKey, bookDoc }) => {
     const footnoteClasses = ['duokan-footnote', 'footnote-link', 'footnote', 'fnref', 'qqreader-footnote'];
     if (footnoteClasses.some((cls) => anchor.classList.contains(cls) || anchor.querySelector(`.${cls}`))) {
       detail['follow'] = true;
+      event.preventDefault();
     }
     footnoteHandler.handle(bookDoc, event)?.catch((err) => {
       console.warn(err);
-      const detail = (event as CustomEvent).detail;
-      view?.goTo(detail.href);
     });
   };
 

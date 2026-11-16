@@ -199,6 +199,8 @@ export const handleClick = (
     }
 
     if (footnote && footnoteText) {
+      event.preventDefault();
+      event.stopPropagation();
       eventDispatcher.dispatch('footnote-popup', {
         bookKey,
         element: footnote,
