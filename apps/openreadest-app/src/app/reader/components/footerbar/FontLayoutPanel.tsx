@@ -107,18 +107,39 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
           : bottomOffset,
       }}
     >
-      <Slider
-        label={_('Font Size')}
-        initialValue={viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}
-        bubbleLabel={`${viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}`}
-        minLabel='A'
-        maxLabel='A'
-        minClassName='text-xs'
-        maxClassName='text-base'
-        onChange={handleFontSizeChange}
-        min={FONT_SIZE_LIMITS.MIN}
-        max={FONT_SIZE_LIMITS.MAX}
-      />
+      {/* WeChat Read Font Size Stepper */}
+      <div className='flex w-full items-center justify-between gap-x-2'>
+        <button
+          className='btn btn-circle btn-sm btn-ghost font-serif text-xs font-semibold'
+          onClick={() => {
+            const cur = viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT;
+            if (cur > FONT_SIZE_LIMITS.MIN) handleFontSizeChange(cur - 1);
+          }}
+          title={_('Decrease Font Size')}
+        >
+          A-
+        </button>
+        <div className='flex-1 min-w-0'>
+          <Slider
+            label={_('Font Size')}
+            initialValue={viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}
+            bubbleLabel={`${viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}`}
+            onChange={handleFontSizeChange}
+            min={FONT_SIZE_LIMITS.MIN}
+            max={FONT_SIZE_LIMITS.MAX}
+          />
+        </div>
+        <button
+          className='btn btn-circle btn-sm btn-ghost font-serif text-sm font-bold'
+          onClick={() => {
+            const cur = viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT;
+            if (cur < FONT_SIZE_LIMITS.MAX) handleFontSizeChange(cur + 1);
+          }}
+          title={_('Increase Font Size')}
+        >
+          A+
+        </button>
+      </div>
       <div className='flex w-full items-center justify-between gap-x-6'>
         <Slider
           label={_('Page Margin')}
@@ -134,13 +155,28 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
         />
         <Slider
           label={_('Line Spacing')}
-          initialValue={(viewSettings?.lineHeight ?? 1.6) * LINE_HEIGHT_LIMITS.MULTIPLIER}
+          initialValue={(viewSettings?.lineHeight ?? 1.8) * LINE_HEIGHT_LIMITS.MULTIPLIER}
           bubbleElement={<RxLineHeight size={marginIconSize} />}
           minLabel={_('Small')}
           maxLabel={_('Large')}
           min={LINE_HEIGHT_LIMITS.MIN}
           max={LINE_HEIGHT_LIMITS.MAX}
           onChange={handleLineHeightChange}
+        />
+      </div>
+
+      {/* WeChat Read Indent First Line Setting */}
+      <div className='flex w-full items-center justify-between px-2 pt-2 border-t border-base-content/10 text-xs text-base-content/85'>
+        <span>{_('Indent First Line')}</span>
+        <input
+          type='checkbox'
+          className='toggle toggle-sm toggle-primary'
+          checked={(viewSettings?.textIndent ?? 2) > 0}
+          onChange={() => {
+            const cur = viewSettings?.textIndent ?? 2;
+            const newIndent = cur > 0 ? 0 : 2;
+            saveViewSettings(envConfig, bookKey, 'textIndent', newIndent);
+          }}
         />
       </div>
     </div>
